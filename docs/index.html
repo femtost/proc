@@ -35,6 +35,9 @@
             let value = encodeURIComponent(query.slice(2));
             top.location = `https://www.bing.com/?q=${value}`;
         }
+        else if (queryLow=="h" || queryLow=="help" || queryLow.startsWith("h\x20")){
+            d$("#result").innerHTML = `No prefix found, see guide below.`;
+        }
         else if (queryLow.startsWith("gdt\x20")){
             let value = query.slice(4);
             let ele = d$("#result");
@@ -43,7 +46,9 @@
             onclick="this.select();" style="width:100%;">`;
         }
         else{
-            d$("#result").innerHTML = `No prefix found, see guide below.`;
+            // Default to google
+            let value = encodeURIComponent(query);
+            top.location = `https://www.google.com/search?q=${value}`;
         }
     }
 </script>
