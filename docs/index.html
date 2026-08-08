@@ -42,11 +42,72 @@
             let value = encodeURIComponent(query.slice(2));
             top.location = `https://www.bing.com/?q=${value}`;
         }
+        else if (queryLow.startsWith("d\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://duckduckgo.com/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("y\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://search.yahoo.com/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("e\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://ecosia.org/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("p\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://presearch.com/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("m\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://meta.ai/?q=${value}`;
+        }    
+        // 2 letters
+        else if (queryLow.startsWith("pp\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://perplexity.com/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("cp\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://copilot.microsoft.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("gr\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://www.grok.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("br\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://brave.com/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("da\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://duck.ai/?q=${value}`;
+        }    
+        else if (queryLow.startsWith("ge\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://gemini.google.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("ch\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://chatgpt.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("ga\x20")){
+            let value = encodeURIComponent(query.slice(3));
+            top.location = `https://aimode.google.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("c\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://claude.ai/?q=${value}`;
+        }
+        else if (queryLow.startsWith("h\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://huggingface.co/chat/?q=${value}`;
+        }
         else if (queryLow.startsWith("//")){
             let value = encodeURIComponent(query.slice(2).trim());
             top.location = `https://${value}`;
         }
-        else if (queryLow=="h" || queryLow=="help" || queryLow.startsWith("h\x20")){
+        else if (queryLow=="h" || queryLow=="help"){
             d$("#result").innerHTML = `No prefix found, see guide below.`;
         }
         else if (queryLow.startsWith("gdt\x20")){
@@ -85,9 +146,26 @@
             List of usable q prefix (with space after):
             <ul>
                 <li>//some.domain</li>
-                <li>h Help</li>
-                <li>g Google</li>
-                <li>b Bing</li>
+                <li>h or help -> Help</li>                
+                <li>g Text -> Google (for both ask/search)</li>
+                <li>----------------------------------------</li>
+                <li>b Text -> Bing</li>                
+                <li>c Text -> Claude</li>
+                <li>d Text -> DuckDuckGo</li>
+                <li>e Text -> Ecosia</li>                
+                <li>h Text -> HuggingChat</li>                
+                <li>m Text -> Meta AI</li>                
+                <li>p Text -> Presearch</li>                
+                <li>y Text -> Yahoo</li>
+                <li>br Text -> Brave</li>
+                <li>ch Text -> ChatGPT</li>
+                <li>cp Text -> Copilot</li>                
+                <li>da Text -> Duck AI</li>
+                <li>ga Text -> Google AI Mode</li>
+                <li>ge Text -> Gemini</li>                
+                <li>gr Text -> Grok</li>
+                <li>pp Text -> Perplexity</li>                
+                <li>----------------------------------------</li>
                 <li>gdt Google Drive Thumbnail URL</li>
             </ul>
         </div>
