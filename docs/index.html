@@ -1,0 +1,77 @@
+<script>
+    //
+    function d$(sel){
+        return document.querySelector(sel);
+    }
+
+    // Shareable url to thumbnail url
+    // Claude, edited
+    function getGoogleDriveThumbnail(shareUrl) {
+        try {
+            // Format 1: .../d/FILE_ID/...  (standard share link)
+            // Format 2: .../open?id=FILE_ID (Drive Desktop link)
+            const match = shareUrl.match(/\/d\/([a-zA-Z0-9_-]+)/)
+                    || shareUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (!match) return "Invalid Google Drive URL";
+
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1920`;
+        } catch (error) {
+            return "Error parsing URL";
+        }
+    }
+
+    //
+    function process(query){
+        if (query==null) return;
+        query = query.trim().replace(/[\s]{2,}/g,"\x20");
+        var queryLow = query.toLowerCase();
+
+        if (queryLow.startsWith("g\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://www.google.com/search?q=${value}`;
+        }
+        else if (queryLow.startsWith("b\x20")){
+            let value = encodeURIComponent(query.slice(2));
+            top.location = `https://www.bing.com/?q=${value}`;
+        }
+        else if (queryLow.startsWith("gdt\x20")){
+            let value = query.slice(4);
+            let ele = d$("#result");
+            let thumbUrl = getGoogleDriveThumbnail(value);
+            ele.innerHTML = `<input value="${thumbUrl}"
+            onclick="this.select();" style="width:100%;">`;
+        }
+        else{
+            d$("#result").innerHTML = `No prefix found, see guide below.`;
+        }
+    }
+</script>
+<script>
+    var url = new URL(location.href);
+    var params = url.searchParams;
+    var query = params.get("q");
+    window.addEventListener("load",()=>{
+        process(query);
+    });
+</script>
+
+<body>
+    <div style="padding-left:25vw; padding-right:25vw;">
+        <div>&nbsp;</div>
+        <h1>Text Processor</h1>
+        <h1>Result</h1>
+        <div id="result">[None]</div>
+        <h1>Guide</h1>
+        <div>
+            Usage: <code>https://recauth.github.io/proc?q=...</code>
+            <div>&nbsp;</div>
+            List of usable q prefix (with space after):
+            <ul>
+                <li>g Google</li>
+                <li>b Bing</li>
+                <li>gdt Google Drive Thumbnail URL</li>
+            </ul>
+        </div>
+    </div>
+</body>
