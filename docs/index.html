@@ -156,7 +156,7 @@
     //
     function showSlugs(){
         var box = d$("#slug-list");
-        var slugs = [];
+        var slugs = [];        
 
         for (let k in localStorage){
             if (k==null || typeof k != "string") continue;
@@ -164,6 +164,10 @@
             slugs.push(k.trim().slice("slug:".length));
         }
 
+        // Show
+        if (slugs.length>0)
+            box.innerHTML = "";
+        
         for (let s of slugs){
             let ele = document.createElement("div");
             ele.innerHTML = `@${s}`;
