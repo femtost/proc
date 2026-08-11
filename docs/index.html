@@ -170,7 +170,7 @@
             box.appendChild(ele);
 
             let editArea = document.createElement("textarea");
-            editArea.style.cssText = `width:100%;`;
+            editArea.style.cssText = `width:100%; min-height:calc(16px * 5);`;
             box.appendChild(editArea);
             editArea.value = localStorage["slug:"+s];
         }
@@ -235,4 +235,5 @@
         <h1>Slugs Found</h1>
         <div id="slug-list">None</div>
     </div>
+    <div style="height:25vh;">&nbsp;</div>
 </body>
