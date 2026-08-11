@@ -120,7 +120,12 @@
         else{
             // Default to google
             let value = encodeURIComponent(query);
-            top.location = `https://www.google.com/search?q=${value}`;
+            // top.location = `https://www.google.com/search?q=${value}`;
+            
+            // Better privacy with Brave (no IP, no log), 
+            // Brave is better than DuckDuckGo as DuckDuckGo doesn't log down IP
+            // but the query is sent to Bing for results and logged by Bing:
+            top.location = `https://search.brave.com/search?q=${value}`;
         }
     }
 </script>
