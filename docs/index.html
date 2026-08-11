@@ -135,7 +135,7 @@
         if (key==null) return;
         var text = prompt("Enter text chunk:");
         if (text==null) return;
-        key = key.trim().replace(/[\s]{2,}/g,"\x20).toLowerCase();
+        key = key.trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
         localStorage[key] = text.trim();
         alert("Canned text saved!");
     }
@@ -157,6 +157,7 @@
     var url = new URL(location.href);
     var params = url.searchParams;
     var query = params.get("q");
+    
     window.addEventListener("load",()=>{
         if (query==null) return;
         query = query.trim();
