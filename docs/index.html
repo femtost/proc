@@ -136,7 +136,7 @@
         var text = prompt("Enter text chunk:");
         if (text==null) return;
         key = key.trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
-        localStorage[key] = text.trim();
+        localStorage["slug:"+key] = text.trim();
         alert("Canned text saved!");
     }
 
@@ -145,12 +145,35 @@
         // Remove @
         var key = query.slice(1).trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
         
-        if (localStorage[key]==null){
+        if (localStorage["slug:"+key]==null){
             alert("No such key in localStorage: "+key);
             return;
         }
-        var text = eval("`" + localStorage[key] + "`");
+        var text = eval("`" + localStorage["slug:"+key] + "`");
         top.location = `https://search.brave.com/ask?q=${encodeURIComponent(text)}`;
+    }
+
+    //
+    function showSlugs(){
+        var box = d$("#slug-list");
+        var slugs = [];
+
+        for (let k in localStorage){
+            if (k==null || typeof k != "string") continue;
+            if (!k.trim().startsWith("slug:")) continue;
+            slugs.push(k.trim().slice("slug:".length));
+        }
+
+        for (let s of slugs){
+            let ele = document.createElement("div");
+            ele.innerHTML = `@${s}`;
+            box.appendChild(ele);
+
+            let editArea = document.createElement("textarea");
+            editArea.style.cssText = `width:100%;`;
+            box.appendChild(editArea);
+            editArea.value = localStorage["slug:"+s];
+        }
     }
 </script>
 <script>
@@ -159,6 +182,7 @@
     var query = params.get("q");
     
     window.addEventListener("load",()=>{
+        showSlugs();
         if (query==null) return;
         query = query.trim();
 
@@ -208,5 +232,7 @@
                 <li>gdt Google Drive Thumbnail URL</li>
             </ul>
         </div>
+        <h1>Slugs Found</h1>
+        <div id="slug-list">None</div>
     </div>
 </body>
