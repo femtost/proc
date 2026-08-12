@@ -133,14 +133,15 @@
     function addCannedText(){
         var key = prompt("Enter slug for canned text:");
         if (key==null) return;
+
+        if (key.trim().toLowerCase()=="hist"){
+            alert("Can't set 'hist' as slug, it's a built-in slug");
+            return;
+        }        
         var text = prompt("Enter text chunk:");
         if (text==null) return;
         key = key.trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
-
-        if (key=="hist"){
-            alert("Can't set 'hist' as slug, it's a built-in slug");
-            return;
-        }
+        
         localStorage["slug:"+key] = text.trim();
         alert("Canned text saved!");
     }
