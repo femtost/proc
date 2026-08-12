@@ -189,7 +189,7 @@
     window.addEventListener("load",()=>{
         showSlugs();
         if (query==null) return;
-        query = query.trim();
+        query = decodeURIComponent(query.trim());
 
         if (query.length>0){
             if (query.startsWith("@"))
