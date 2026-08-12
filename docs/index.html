@@ -183,17 +183,20 @@
 <script>
     var url = new URL(location.href);
     var params = url.searchParams;
-    var query = params.get("q");
+    // var query = params.get("q");
+    var query = location.hash.slice(1).trim();
     
     window.addEventListener("load",()=>{
         showSlugs();
         if (query==null) return;
         query = query.trim();
 
-        if (query.startsWith("@"))
-            askUsingCannedText(query);
-        else        
-            process(query);
+        if (query.length>0){
+            if (query.startsWith("@"))
+                askUsingCannedText(query);
+            else        
+                process(query);
+        }
     });
 </script>
 
