@@ -215,8 +215,9 @@
         if (localStorage.procQueryHist == null)
             localStorage.procQueryHist = "[]";
 
-        var json = localStorage.proc
-        var aiPrompt = `JSON data of ask and search history in chronological order: ${json}. `+
+        var json = localStorage.procQueryHist;
+        var aiPrompt = `JSON data of ask and search history in chronological order `+
+            `loaded out and seen as: ${json}. `+
             `Summarize my recent queries in the JSON data.`;
         top.location = `https://search.brave.com/ask?q=${encodeURIComponent(aiPrompt)}`;
     }
