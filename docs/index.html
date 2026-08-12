@@ -136,6 +136,11 @@
         var text = prompt("Enter text chunk:");
         if (text==null) return;
         key = key.trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
+
+        if (key=="hist"){
+            alert("Can't set 'hist' as slug, it's a built-in slug");
+            return;
+        }
         localStorage["slug:"+key] = text.trim();
         alert("Canned text saved!");
     }
@@ -143,8 +148,8 @@
     //
     function askUsingCannedText(query){
         // Remove @
-        var key = query.slice(1).trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();
-        
+        var key = query.slice(1).trim().replace(/[\s]{2,}/g,"\x20").toLowerCase();        
+                
         if (localStorage["slug:"+key]==null){
             alert("No such key in localStorage: "+key);
             return;
@@ -179,6 +184,42 @@
             editArea.value = localStorage["slug:"+s];
         }
     }
+
+    //
+    function str(object){
+        return JSON.stringify(object);
+    }
+
+    //
+    function obj(json){
+        try{
+            return JSON.parse(json);
+        } catch{
+            return null;
+        }
+    }
+
+    // Save query history
+    function saveHistory(query){
+        if (localStorage.procQueryHist == null)
+            localStorage.procQueryHist = "[]";
+
+        var arr = obj(localStorage.procQueryHist);
+        arr.push(query);
+        if (arr.length>100) arr=arr.slice(-100);
+        localStorage.procQueryHist = str(arr);
+    }
+
+    //
+    function processHist(){
+        if (localStorage.procQueryHist == null)
+            localStorage.procQueryHist = "[]";
+
+        var json = localStorage.proc
+        var aiPrompt = `JSON data of ask and search history in chronological order: ${json}. `+
+            `Summarize my recent queries in the JSON data.`;
+        top.location = `https://search.brave.com/ask?q=${encodeURIComponent(aiPrompt)}`;
+    }
 </script>
 <script>
     var url = new URL(location.href);
@@ -192,10 +233,14 @@
         query = decodeURIComponent(query.trim());
 
         if (query.length>0){
-            if (query.startsWith("@"))
+            if (query.trim().toLowerCase()=="@hist")
+                processHist();
+            else if (query.startsWith("@"))
                 askUsingCannedText(query);
-            else        
+            else{        
+                saveHistory(query);
                 process(query);
+            }
         }
     });
 </script>
@@ -211,7 +256,8 @@
             <button onclick="addCannedText();">Add Canned Text</button>
         </h1>
         <div>
-            Usage: <code>https://recauth.github.io/proc?q=... or ?q=@slug for canned text</code>
+            Usage: <code>https://recauth.github.io/proc/#... or /#@slug for canned text</code><br>
+            or use built-in slugs: <code>@hist</code>
             <div>&nbsp;</div>
             List of usable q prefix (with space after):
             <ul>
