@@ -134,6 +134,10 @@
         var key = prompt("Enter slug for canned text:");
         if (key==null) return;
 
+        if (key.trim().toLowerCase()=="man"){
+            alert("Can't set 'man' as slug, it's a built-in slug");
+            return;
+        }
         if (key.trim().toLowerCase()=="hist"){
             alert("Can't set 'hist' as slug, it's a built-in slug");
             return;
@@ -230,6 +234,11 @@
             hour: 'numeric', minute: '2-digit', hour12: true }
         );
     }
+
+    //
+    function gotoAiAndAutomation(){
+        top.location = "https://www.vscode.dev";
+    }
 </script>
 <script>
     var url = new URL(location.href);
@@ -243,7 +252,9 @@
         query = decodeURIComponent(query.trim());
 
         if (query.length>0){
-            if (query.trim().toLowerCase()=="@hist")
+            if (query.trim().toLowerCase()=="@man")
+                gotoAiAndAutomation();
+            else if (query.trim().toLowerCase()=="@hist")
                 processHist();
             else if (query.startsWith("@"))
                 askUsingCannedText(query);
@@ -267,7 +278,7 @@
         </h1>
         <div>
             Usage: <code>https://recauth.github.io/proc/#... or /#@slug for canned text</code><br>
-            or use built-in slugs: <code>@hist</code>
+            or use built-in slugs: <code>@man @hist</code>
             <div>&nbsp;</div>
             List of usable q prefix (with space after):
             <ul>
